@@ -1,0 +1,15 @@
+nelmio_cors:
+    defaults:
+        allow_origin: ['']  # Autoriser toutes les origines
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']  # Autoriser toutes les méthodes HTTP nécessaires
+        allow_headers: ['']  # Autoriser tous les en-têtes
+        expose_headers: ['Link']  # En-têtes exposées, par exemple 'Link'
+        max_age: 3600  # Temps d'expiration du cache des réponses préalables
+        allow_credentials: false  # Activer ou désactiver l'envoi des identifiants (comme les cookies)
+
+    paths:
+        '^/':  # Appliquer les règles à toutes les routes
+            allow_origin: ['']
+            allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+            allow_headers: ['']
+            max_age: 3600
