@@ -35,7 +35,7 @@ class AlbumApiController extends AbstractController
         $data = json_decode($request->getContent());
         
         if (empty($data->title) || empty($data->releaseDate) || empty($data->cover)) {
-            return $this->json(["message" => "Invalid request"], Response::HTTP_BAD_REQUEST);
+            return $this->json(["message" => "Invalid request"], Response::HTTP_CREATED);
         }
         $album = new Album();
         $album->setTitle($data->title);
@@ -47,6 +47,62 @@ class AlbumApiController extends AbstractController
         $response = json_decode($serializer->serialize($album, "json"));
         return $this->json([
             "message" => "Album créé avec succès",
+            "album"=> $response,
+        ], Response::HTTP_OK);
+    }
+    #[Route('/api/album/remove-album', name: 'app_remove_album', methods: ["DELETE"])]
+    public function removeAlbum(
+        AlbumRepository         $albumRepository,
+        SerializerInterface     $serializer,
+        Request                 $request,
+        EntityManagerInterface  $entityManager
+    ): JsonResponse
+    {
+        $data = json_decode($request->getContent());
+        $id = $data->id;
+        $album = $albumRepository->find($id);
+        if (!$album) {   
+            return $this->json(["message" => "Album introuvable"], Response::HTTP_NOT_FOUND);
+        }
+        $entityManager->remove($album);
+        // $entityManager->persist($album);
+        $entityManager->flush();
+
+        return $this->json([
+            "message" => "Album supprimé avec succès",
+        ], Response::HTTP_OK);
+    }
+    #[Route('/api/album/update-album', name: 'app_update_album', methods: ["PUT"])]
+    public function updateAlbum(
+        AlbumRepository         $albumRepository,
+        SerializerInterface     $serializer,
+        Request                 $request,
+        EntityManagerInterface  $entityManager
+    ): JsonResponse
+    {
+        $data = json_decode($request->getContent());
+        
+        if (empty($data->id) && (empty($data->title) && empty($data->releaseDate) && empty($data->cover))) {
+            return $this->json(["message" => "Invalid request"], Response::HTTP_BAD_REQUEST);
+        }
+        $data = json_decode($request->getContent());
+        $id = $data->id;
+        $album = $albumRepository->find($id);
+        if (!empty($data->title)) {
+            $album->setTitle($data->title);
+        }
+        if (!empty($data->releaseDate)) {
+            $album->setReleaseDate((new \DateTime())->setTimestamp(strtotime($data->releaseDate)));
+        }
+        if (!empty($data->cover)) {
+            $album->setCover($data->cover);
+        }
+        $entityManager->persist($album);
+        $entityManager->flush();
+
+        $response = json_decode($serializer->serialize($album, "json"));
+        return $this->json([
+            "message" => "Album modifié avec succès",
             "album"=> $response,
         ], Response::HTTP_OK);
     }
