@@ -1,0 +1,18 @@
+meta {
+  name: Update album
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{url}}/api/album/update-album
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 6,
+    "title" : "aaaaaa"
+  }
+}

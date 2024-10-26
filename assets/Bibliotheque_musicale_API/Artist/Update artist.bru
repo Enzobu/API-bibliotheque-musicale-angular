@@ -1,0 +1,18 @@
+meta {
+  name: Update artist
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{url}}/api/artist/update-artist
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 6,
+    "name" : "Teeeeeeeeest"
+  }
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Delete song
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{url}}/api/song/remove-song
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 11
+  }
+  
+}

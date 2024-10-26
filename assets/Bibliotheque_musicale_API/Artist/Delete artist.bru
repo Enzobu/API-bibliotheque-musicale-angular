@@ -1,0 +1,17 @@
+meta {
+  name: Delete artist
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{url}}/api/artist/remove-artist
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 6
+  }
+}

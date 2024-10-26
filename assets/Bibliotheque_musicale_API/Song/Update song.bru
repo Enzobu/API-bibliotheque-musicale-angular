@@ -1,0 +1,19 @@
+meta {
+  name: Update song
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{url}}/api/song/update-song
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 11,
+    "title" : "Teeeeeeeeeeest"
+  }
+  
+}

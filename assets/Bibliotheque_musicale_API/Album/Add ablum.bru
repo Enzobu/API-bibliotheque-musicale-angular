@@ -4,8 +4,16 @@ meta {
   seq: 2
 }
 
-get {
-  url: 
-  body: none
+post {
+  url: https://127.0.0.1:8000/api/album/add-album
+  body: json
   auth: none
+}
+
+body:json {
+  {
+      "title": "Test",
+      "releaseDate": "2013-05-17T00:00:00+00:00",
+      "cover": "https://example.com/test.jpg"
+  }
 }

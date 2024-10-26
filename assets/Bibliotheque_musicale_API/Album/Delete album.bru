@@ -1,0 +1,17 @@
+meta {
+  name: Delete album
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{url}}/api/album/remove-album
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 7
+  }
+}

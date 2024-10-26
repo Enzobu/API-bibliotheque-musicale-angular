@@ -1,0 +1,18 @@
+meta {
+  name: Add song
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{url}}/api/style/add-style
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name" : "Test"
+  }
+  
+}
