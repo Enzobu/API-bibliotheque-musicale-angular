@@ -14,26 +14,29 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["Album", "Artist", "Song", "Style"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups("Album")]
+    #[Groups(["Artist"])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups("Album")]
+    #[Groups(["Album", "Artist"])]
     private ?string $illustration = null;
-
+    
     /**
      * @var Collection<int, Album>
      */
     #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
+    #[Groups(["Artist"])]
     private Collection $albums;
-
+    
     /**
      * @var Collection<int, Song>
      */
     #[ORM\ManyToMany(targetEntity: Song::class, inversedBy: 'artists')]
+    #[Groups(["Artist"])]
     private Collection $songs;
 
     /**

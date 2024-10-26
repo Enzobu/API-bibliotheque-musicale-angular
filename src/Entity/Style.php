@@ -6,6 +6,7 @@ use App\Repository\StyleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
 class Style
@@ -13,15 +14,18 @@ class Style
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["Style"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["Style"])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Artist>
      */
     #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'styles')]
+    #[Groups(["Style"])]
     private Collection $artists;
 
     public function __construct()
