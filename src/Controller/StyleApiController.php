@@ -15,6 +15,27 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class StyleApiController extends AbstractController
 {
+
+    /**
+     * @OA\Tag(name="Style", description="API pour gérer les styles")
+     */
+
+    /**
+     * @OA\Get(
+     *     path="/api/style/get-styles",
+     *     tags={"Style"},
+     *     summary="Get all styles",
+     *     @OA\Response(response="200", description="List of all styles",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/style/get-styles', name: 'app_gat_style', methods: ["GET"])]
     public function getStyle(
         StyleRepository         $styleRepository,
@@ -25,6 +46,26 @@ class StyleApiController extends AbstractController
         $response = $serializer->serialize($style, "json", ["groups" => "Style"]);
         return $this->json(json_decode($response), Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/style/add-style",
+     *     tags={"Style"},
+     *     summary="Add a new style",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", description="Name of the style")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Style created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="name", type="string")
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/style/add-style', name: 'app_add_style', methods: ["POST"])]
     public function addStyle(
         StyleRepository         $styleRepository,
@@ -49,6 +90,21 @@ class StyleApiController extends AbstractController
             "style"=> $response,
         ], Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/style/remove-style",
+     *     tags={"Style"},
+     *     summary="Delete a style",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Style deleted successfully")
+     * )
+     */
     #[Route('/api/style/remove-style', name: 'app_remove_style', methods: ["DELETE"])]
     public function removeStyle(
         StyleRepository         $styleRepository,
@@ -70,6 +126,32 @@ class StyleApiController extends AbstractController
             "message" => "Style supprimé avec succès",
         ], Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Put(
+     *     path="/api/style/update-style",
+     *     tags={"Style"},
+     *     summary="Update a style",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", description="Updated name of the style")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Style updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="name", type="string")
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/style/update-style', name: 'app_update_style', methods: ["PUT"])]
     public function updateStyle(
         StyleRepository         $styleRepository,
