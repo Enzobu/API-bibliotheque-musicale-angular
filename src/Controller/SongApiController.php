@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use OpenApi\Annotations as OA;
 use App\Entity\Song;
 use App\Repository\SongRepository;
 use Doctrine\ORM\EntityManagerInterface;

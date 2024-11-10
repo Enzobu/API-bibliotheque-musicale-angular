@@ -22,7 +22,7 @@ class Artist
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["Album", "Artist"])]
+    #[Groups(["Artist"])]
     private ?string $illustration = null;
     
     /**

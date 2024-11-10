@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use OpenApi\Annotations as OA;
 use App\Entity\Style;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityManagerInterface;

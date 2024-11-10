@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Artist;
+use OpenApi\Annotations as OA;
+use App\Entity\Artist;  
 use App\Repository\ArtistRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
