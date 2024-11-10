@@ -15,6 +15,28 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AlbumApiController extends AbstractController
 {
+    /**
+     * @OA\Tag(name="Album", description="API pour gérer les albums")
+     */
+
+    /**
+     * @OA\Get(
+     *     path="/api/album/get-albums",
+     *     tags={"Album"},
+     *     summary="Get all albums",
+     *     @OA\Response(response="200", description="List of all albums",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="title", type="string"),
+     *                 @OA\Property(property="releaseDate", type="string", format="date"),
+     *                 @OA\Property(property="cover", type="string")
+     *             )
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/album/get-albums', name: 'app_gat_album', methods: ["GET"])]
     public function getAlbums(
         AlbumRepository         $albumRepository,
@@ -24,7 +46,31 @@ class AlbumApiController extends AbstractController
         $albums = $albumRepository->findAll();
         $response = $serializer->serialize($albums, "json", ["groups" => "Album"]);
         return $this->json(json_decode($response), Response::HTTP_OK);
-    }
+    }  
+
+    /**
+     * @OA\Post(
+     *     path="/api/album/add-album",
+     *     tags={"Album"},
+     *     summary="Add a new album",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="title", type="string", description="Title of the album"),
+     *             @OA\Property(property="releaseDate", type="string", format="date", description="Release date of the album"),
+     *             @OA\Property(property="cover", type="string", description="Cover image URL of the album")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Album created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="releaseDate", type="string", format="date"),
+     *             @OA\Property(property="cover", type="string")
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/album/add-album', name: 'app_add_album', methods: ["POST"])]
     public function addAlbum(
         AlbumRepository         $albumRepository,
@@ -51,6 +97,21 @@ class AlbumApiController extends AbstractController
             "album"=> $response,
         ], Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/album/remove-album",
+     *     tags={"Album"},
+     *     summary="Delete an album",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Album deleted successfully")
+     * )
+     */
     #[Route('/api/album/remove-album', name: 'app_remove_album', methods: ["DELETE"])]
     public function removeAlbum(
         AlbumRepository         $albumRepository,
@@ -73,6 +134,36 @@ class AlbumApiController extends AbstractController
             "message" => "Album supprimé avec succès",
         ], Response::HTTP_OK);
     }
+
+    /**
+     * @OA\Put(
+     *     path="/api/album/update-album",
+     *     tags={"Album"},
+     *     summary="Update an album",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="title", type="string", description="Updated title of the album"),
+     *             @OA\Property(property="releaseDate", type="string", format="date", description="Updated release date of the album"),
+     *             @OA\Property(property="cover", type="string", description="Updated cover URL of the album")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Album updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="releaseDate", type="string", format="date"),
+     *             @OA\Property(property="cover", type="string")
+     *         )
+     *     )
+     * )
+     */
     #[Route('/api/album/update-album', name: 'app_update_album', methods: ["PUT"])]
     public function updateAlbum(
         AlbumRepository         $albumRepository,
