@@ -37,7 +37,7 @@ class AlbumApiController extends AbstractController
      *     )
      * )
      */
-    #[Route('/api/album/get-albums', name: 'app_gat_album', methods: ["GET"])]
+    #[Route('/api/album/get-albums', name: 'app_get_album', methods: ["GET"])]
     public function getAlbums(
         AlbumRepository         $albumRepository,
         SerializerInterface     $serializer
