@@ -19,15 +19,15 @@ class Album
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups("Album")]
+    #[Groups(["Album", "Song", "Artist"])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups("Album")]
+    #[Groups(["Album", "Song", "Artist"])]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups("Album")]
+    #[Groups(["Album", "Song", "Artist"])]
     private ?string $cover = null;
 
     #[ORM\ManyToOne(inversedBy: 'albums')]

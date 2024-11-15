@@ -18,11 +18,11 @@ class Song
     private ?int $id = null;
     
     #[ORM\Column(length: 255)]
-    #[Groups(["Song"])]
+    #[Groups(["Song", "Artist"])]
     private ?string $title = null;
     
     #[ORM\Column]
-    #[Groups(["Song"])]
+    #[Groups(["Song", "Artist"])]
     private ?int $duration = null;
     
     #[ORM\ManyToOne(inversedBy: 'songs')]
