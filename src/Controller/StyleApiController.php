@@ -36,7 +36,7 @@ class StyleApiController extends AbstractController
      *     )
      * )
      */
-    #[Route('/api/style/get-styles', name: 'app_gat_style', methods: ["GET"])]
+    #[Route('/api/style/get-styles', name: 'app_get_style', methods: ["GET"])]
     public function getStyle(
         StyleRepository         $styleRepository,
         SerializerInterface     $serializer
