@@ -5,6 +5,8 @@ namespace App\Controller;
 use OpenApi\Annotations as OA;
 use App\Entity\Song;
 use App\Repository\SongRepository;
+use App\Repository\AlbumRepository;
+use App\Repository\ArtistRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -70,7 +72,9 @@ class SongApiController extends AbstractController
      */
     #[Route('/api/song/add-song', name: 'app_add_song', methods: ["POST"])]
     public function addSong(
-        SongRepository         $songRepository,
+        SongRepository          $songRepository,
+        AlbumRepository         $albumRepository,
+        ArtistRepository        $artistRepository,
         SerializerInterface     $serializer,
         Request                 $request,
         EntityManagerInterface  $entityManager
@@ -84,13 +88,13 @@ class SongApiController extends AbstractController
         $song = new Song();
         $song->setTitle($data->title);
         $song->setDuration($data->duration);
+        $song->setAlbum($albumRepository->find($data->album));
+        $song->addArtist($artistRepository->find($data->artists));
         $entityManager->persist($song);
         $entityManager->flush();
 
-        $response = json_decode($serializer->serialize($song, "json"));
         return $this->json([
             "message" => "Songe créé avec succès",
-            "song"=> $response,
         ], Response::HTTP_OK);
     }
 
@@ -161,6 +165,8 @@ class SongApiController extends AbstractController
     public function updateSong(
         SongRepository         $songRepository,
         SerializerInterface     $serializer,
+        AlbumRepository         $albumRepository,
+        ArtistRepository        $artistRepository,
         Request                 $request,
         EntityManagerInterface  $entityManager
     ): JsonResponse
@@ -179,13 +185,17 @@ class SongApiController extends AbstractController
         if (!empty($data->duration)) {
             $song->setDuration($data->duration);
         }
+        if (!empty($data->album)) {
+            $song->setAlbum($albumRepository->find($data->album));
+        }
+        if (!empty($data->artists)) {
+            $song->addArtist($artistRepository->find($data->artists));
+        }
         $entityManager->persist($song);
         $entityManager->flush();
 
-        $response = json_decode($serializer->serialize($song, "json"));
         return $this->json([
             "message" => "Song modifié avec succès",
-            "song"=> $response,
         ], Response::HTTP_OK);
     }
 }
